@@ -29,9 +29,13 @@ public class Map : MonoBehaviour {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
 
+
+
                 if(j == 6 || j == 7 || j == 8) {
 
                     tiles[i, j] = new Tile(i, j, Tile.Type.Floor, floor);
+                    tiles[i, j].RegisterOnTurretPlaced(Turret_Controller.instance.OnTurretPlaced);
+                    tiles[i, j].RegisterOnTurretSold(Turret_Controller.instance.OnTurretSold);
                     continue;
                 }
 
@@ -42,6 +46,9 @@ public class Map : MonoBehaviour {
                 }
                 else
                     tiles[i, j] = new Tile(i, j, Tile.Type.Floor, floor);
+
+                tiles[i, j].RegisterOnTurretPlaced(Turret_Controller.instance.OnTurretPlaced);
+                tiles[i, j].RegisterOnTurretSold(Turret_Controller.instance.OnTurretSold);
             }
         }
 	}
@@ -50,4 +57,16 @@ public class Map : MonoBehaviour {
 	void Update () {
 
 	}
+
+    public Tile getTileAt (float x, float y) {
+
+        int X = Mathf.FloorToInt(x);
+        int Y = Mathf.FloorToInt(y);
+
+        if (X < 0 || X > width - 1 || Y < 0 || Y > height - 1)
+            return null;
+
+        return tiles[X, Y];
+
+    }
 }
